@@ -16,7 +16,7 @@ bird_config:
 
 bird_service:
   service.running:
-  - name: {{ server.service }}
+  - name: {{ settings.service }}
   - enable: true
   - reload: true
 
