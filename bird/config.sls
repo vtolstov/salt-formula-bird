@@ -2,23 +2,23 @@
 
 bird_packages:
   pkg.installed:
-  - names: {{ settings.pkgs }}
+    - names: {{ settings.pkgs }}
 
 bird_config:
   file.managed:
-  - name: {{ settings.config }}
-  - source: salt://{{ slspath }}/files/bird_kv.conf.jinja
-  - template: jinja
-  - context:
+    - name: {{ settings.config }}
+    - source: salt://{{ slspath }}/files/bird_kv.conf.jinja
+    - template: jinja
+    - context:
       settings: 'bird:ipv4'
-  - require:
-    - pkg: bird_packages
+    - require:
+      - pkg: bird_packages
 
 bird_service:
   service.running:
-  - name: {{ settings.service }}
-  - enable: true
-  - reload: true
+    - name: {{ settings.service }}
+    - enable: true
+    - reload: true
 
 bird_reload:
   cmd.run:
