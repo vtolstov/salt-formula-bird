@@ -2,8 +2,14 @@
 {%- if val is string %}
 {{ key }} {{ val }};
 {%- elif val is mapping or val is sequence %}
-{%- for v in val %}
-{{ key }} {{ v }};
+{%- if key == 'protocol' %}
+{%- for k,v in val.iteritems() %}
+protocol {{ v.type }} {{ k }} {
+{%- for i,j in v.iteritems() if i != 'type' %}
+  {{ i }} {{ j }};
 {%- endfor %}
+}
+{%- endfor %}
+{%- endif %}
 {%- endif %}
 {%- endfor %}
