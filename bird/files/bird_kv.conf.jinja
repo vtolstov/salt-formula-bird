@@ -4,5 +4,6 @@
 {%- elif val is mapping or val is sequence %}
 {%- for v in val %}
 {{ key }} {{ v }};
+{%- endfor %}
 {%- endif %}
 {%- endfor %}
