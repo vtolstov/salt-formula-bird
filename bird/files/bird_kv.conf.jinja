@@ -1,4 +1,4 @@
-{%- for key, val in salt['pillar.get'](settings, []) %}
+{%- for key, val in salt['pillar.get'](settings, {}).iteritems() %}
 {%- if val is string %}
 {{ key }} {{ val }};
 {%- endif %}
