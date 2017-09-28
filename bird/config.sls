@@ -7,8 +7,10 @@ bird_packages:
 bird_config:
   file.managed:
   - name: {{ settings.config }}
-  - source: salt://{{ slspath }}/files/bird.conf
+  - source: salt://{{ slspath }}/files/bird_kv.conf.jinja
   - template: jinja
+  - context:
+      settings: 'bird:ipv4'
   - require:
     - pkg: bird_packages
 
