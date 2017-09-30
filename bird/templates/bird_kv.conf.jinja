@@ -2,9 +2,15 @@
 
 {%- if key == 'include' %}
 {%- for inc in val %}
-{{ key }} {{ inc }};
+{{ key }} "{{ inc }}";
 {%- endfor %}
+{%- elif key.startswith('filter') %}
+
+{{ key }} {
+{{ val|indent(2,true) }}
+}
 {%- elif key.startswith('log') %}
+
 {{ key }} { {{ ', '.join(val) }} };
 {%- else %}
 {%- if val is number %}
