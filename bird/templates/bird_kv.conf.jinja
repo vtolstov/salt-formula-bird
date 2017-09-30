@@ -1,1 +1,40 @@
-{{ salt['bird.config'](salt['pillar.get'](settings, {})) }}
+{%- for key, val in salt['pillar.get'](settings, {}).items() %}
+
+{%- if key == 'include' %}
+{%- for inc in val %}
+{{ key }} {{ inc }};
+{%- endfor %}
+{%- elif key.startswith('log') %}
+{{ key }} { {{ ', '.join(val) }} };
+{%- else %}
+{%- if val is number %}
+{{ key }} {{ val }};
+{%- elif val is string %}
+{{ key }} "{{ val }}";
+{%- elif val is mapping %}
+
+{{ key }} {
+{%- for k, v in val.items() %}
+{%- if v is mapping %}
+  {{ k }} {
+  {%- for i,j in v.items() %}
+    {%- if j is mapping %}
+    {{ i }} {
+      {%- for x,y in j.items() %}
+      {{ x }} {{ y }};
+      {%- endfor %}
+    };
+    {%- else %}
+    {{ i }} {{ j }};
+    {%- endif %}
+  {%- endfor %}
+  };
+{%- else %}
+  {{ k }} {{ v }};
+{%- endif %}
+{%- endfor %}
+}
+{%- endif %}
+{%- endif %}
+{%- endfor %}
+
