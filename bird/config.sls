@@ -23,6 +23,6 @@ bird_service:
 bird_reload:
   cmd.run:
     - name: birdc configure
-    - watch:
+    - onchanges:
       - file: bird_config
 
