@@ -12,6 +12,8 @@
 {%- elif key.startswith('log') %}
 
 {{ key }} { {{ ', '.join(val) }} };
+{%- elif key.startswith('router') %}
+{{ key }} {{ val }};
 {%- else %}
 {%- if val is number %}
 {{ key }} {{ val }};
