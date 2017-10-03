@@ -1,13 +1,19 @@
 
 {% set settings = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['bird'],
-        'service': 'bird',
-        'config': '/etc/bird/bird.conf'
+        'pkgs_v4': ['bird'],
+        'service_v4': 'bird',
+        'config_v4': '/etc/bird/bird.conf',
+        'pkgs_v6': ['bird6'],
+        'service_v6': 'bird6',
+        'config_v6': '/etc/bird/bird6.conf'
     },
     'RedHat': {
-        'pkgs': ['bird'],
-        'service': 'bird',
-        'config': '/etc/bird/bird.conf'
+        'pkgs_v4': ['bird'],
+        'service_v4': 'bird',
+        'config_v4': '/etc/bird/bird.conf',
+        'pkgs_v6': ['bird6'],
+        'service_v6': 'bird6',
+        'config_v6': '/etc/bird/bird6.conf'
     },
 }, merge=salt['pillar.get']('bird:settings')) %}
