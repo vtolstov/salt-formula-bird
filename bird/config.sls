@@ -53,7 +53,7 @@ bird_service_v6:
 
 bird_reload_v6:
   cmd.run:
-    - name: bird6c configure
+    - name: birdc6 configure
     - onchanges:
       - file: bird_config_v6
 
