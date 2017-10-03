@@ -35,7 +35,7 @@ bird_packages_v6:
   pkg.installed:
     - names: {{ settings.pkgs_v6 }}
 
-bird_config_v4:
+bird_config_v6:
   file.managed:
     - name: {{ settings.config_v6 }}
     - source: salt://{{ slspath }}/templates/bird_kv.conf.jinja
