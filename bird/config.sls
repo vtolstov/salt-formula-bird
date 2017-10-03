@@ -28,7 +28,8 @@ bird_reload_v4:
     - onchanges:
       - file: bird_config_v4
 
-{%- elif settings.get('ipv6', False) %}
+{%- endif %}
+{%- if settings.get('ipv6', False) %}
 
 bird_packages_v6:
   pkg.installed:
