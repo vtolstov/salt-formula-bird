@@ -20,11 +20,13 @@ bird_service_v4:
   service.running:
     - name: {{ settings.service_v4 }}
     - enable: true
-    - reload: true
+    - restart: true
+    - unless: test -S /var/run/bird/bird.ctl
 
 bird_reload_v4:
   cmd.run:
     - name: birdc configure
+    - onlyif: test -S /var/run/bird/bird.ctl
     - onchanges:
       - file: bird_config_v4
 
