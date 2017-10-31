@@ -1,29 +1,21 @@
-{%- for key, val in salt['pillar.get'](settings, {}).items() %}
+{%- for inc in salt['pillar.get'](settings+':includes', []) %}
+include "{{ inc }}";
+{% endfor %}
 
-{%- if key == 'include' %}
-{%- for inc in val %}
-{{ key }} "{{ inc }}";
-{%- endfor %}
-{%- elif key.startswith('filter') %}
+{%- if salt['pillar.get'](settings+':router id', False) %}
+router id {{ salt['pillar.get'](settings+':router id') }};
+{% endif %}
 
-{{ key }} {
+{%- for key, val in salt['pillar.get'](settings+':filters', {}).iteritems() %}
+filter {{ key }} {
 {{ val|indent(2,true) }}
 }
-{%- elif key.startswith('log') %}
+{% endfor %}
 
-{{ key }} { {{ ', '.join(val) }} };
-{%- elif key.startswith('router') %}
-{{ key }} {{ val }};
-{%- else %}
-{%- if val is number %}
-{{ key }} {{ val }};
-{%- elif val is string %}
-{{ key }} "{{ val }}";
-{%- elif val is mapping %}
-
-{{ key }} {
-{%- for k, v in val.items() %}
-{%- if v is mapping %}
+{%- for key, val in salt['pillar.get'](settings+':protocols', {}).iteritems() %}
+protocol {{ key }} {
+  {%- for k, v in val.items() %}
+  {%- if v is mapping %}
   {{ k }} {
   {%- for i,j in v.items() %}
     {%- if j is mapping %}
@@ -37,12 +29,10 @@
     {%- endif %}
   {%- endfor %}
   };
-{%- else %}
+  {%- else %}
   {{ k }} {{ v }};
-{%- endif %}
-{%- endfor %}
+  {%- endif %}
+  {%- endfor %}
 }
-{%- endif %}
-{%- endif %}
-{%- endfor %}
+{% endfor %}
 
