@@ -6,10 +6,11 @@ bird_packages_v4:
   pkg.installed:
     - names: {{ settings.pkgs_v4 }}
 
+{%- set ipv4tpl = salt['pillar.get']('bird:settings:ipv4tpl', 'salt://' ~ slspath ~ '/templates/bird_kv.conf.jinja') %}
 bird_config_v4:
   file.managed:
     - name: {{ settings.config_v4 }}
-    - source: salt://{{ slspath }}/templates/bird_kv.conf.jinja
+    - source: {{ ipv4tpl }}
     - template: jinja
     - context:
         settings: 'bird:ipv4'
@@ -37,10 +38,11 @@ bird_packages_v6:
   pkg.installed:
     - names: {{ settings.pkgs_v6 }}
 
+{%- set ipv6tpl = salt['pillar.get']('bird:settings:ipv6tpl', 'salt://' ~ slspath ~ '/templates/bird_kv.conf.jinja') %}
 bird_config_v6:
   file.managed:
     - name: {{ settings.config_v6 }}
-    - source: salt://{{ slspath }}/templates/bird_kv.conf.jinja
+    - source: {{ ipv6tpl }}
     - template: jinja
     - context:
         settings: 'bird:ipv6'
