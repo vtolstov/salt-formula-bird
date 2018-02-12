@@ -12,6 +12,10 @@ filter {{ key }} {
 }
 {% endfor %}
 
+{%- for key in salt['pillar.get'](settings+':tables', []) %}
+table {{ key }};
+{% endfor %}
+
 {%- for key, val in salt['pillar.get'](settings+':protocols', {}).iteritems() %}
 protocol {{ key }} {
   {%- for k, v in val.items() %}
