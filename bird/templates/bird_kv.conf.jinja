@@ -6,7 +6,7 @@ include "{{ inc }}";
 router id {{ salt['pillar.get'](settings+':router id') }};
 {% endif %}
 
-{%- for key, val in salt['pillar.get'](settings+':filters', {}).iteritems() %}
+{%- for key, val in salt['pillar.get'](settings+':filters', {}).items() %}
 filter {{ key }} {
 {{ val|indent(2,true) }}
 }
@@ -16,7 +16,7 @@ filter {{ key }} {
 table {{ key }};
 {% endfor %}
 
-{%- for key, val in salt['pillar.get'](settings+':protocols', {}).iteritems() %}
+{%- for key, val in salt['pillar.get'](settings+':protocols', {}).items() %}
 protocol {{ key }} {
   {%- for k, v in val.items() %}
   {%- if v is mapping %}
